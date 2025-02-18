@@ -1,8 +1,8 @@
-package analizador;
+package com.example.notebook.analizadores;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
-import excepciones.Errores;
+import com.example.notebook.excepciones.Errores;
 
 %%
 
@@ -88,6 +88,6 @@ TEXTO=[*]([^\"])*[*]
     }
 <YYINITIAL> {BLANCOS} {/*VACIO*/}
 <YYINITIAL> . {
-                System.out.println("Error lexico detectado: " + yytext() + " en linea " + yyline + " columna " + yycolumn);
-                errores.add(new Errores(yytext(), yyline, yycolumn, "Lexico","No pertenece al lenguaje"));
+                listaErrores.add(new Errores("LEXICO","El caracter "+
+                yytext()+" NO pertenece al lenguaje", yyline, yycolumn));
 }

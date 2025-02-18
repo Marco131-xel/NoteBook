@@ -1,13 +1,17 @@
-package analizador;
+package com.example.notebook.analizadores;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
-import excepciones.Errores;
+import com.example.notebook.abstracto.Instruccion;
+import com.example.notebook.excepciones.Errores;
+import com.example.notebook.simbolo.*;
+import com.example.notebook.expresiones.*;
+import com.example.notebook.instrucciones.*;
 
 // CODIGO USUARIO
 parser code {:
-    scanner s;
-    parser(scanner s){this.s =s;}
+    Lexer s;
+    parser(Lexer s){this.s =s;}
 
     public LinkedList<Errores> listaErrores = new LinkedList<>();
 
@@ -32,14 +36,17 @@ action code {::};
 terminal MAS, MENOS, POR, DIV, PAR1, PAR2, UMENOS;
 terminal IGUAL, CARET, HASH, PUNTO, COMA;
 terminal PRINT, FORMAT, PLOT;
-terminal ENTERO, DECIMAL, IDENTIFICADOR;
+terminal Integer ENTERO;
+terminal Double DECIMAL;
+terminal String IDENTIFICADOR;
 terminal String CADENA;
 terminal String HEADER;
 terminal String TEXTO;
 // NO TERMINALES
-non terminal INICIO, INSTRUCCION, INSTRUCCIONES;
-non terminal TEXTOS, CODIGO;
-non terminal TITULOS, TIPOS, LISTAS, PARRAFOS;
+non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES;
+non terminal Instruccion INSTRUCCION;
+non terminal Instruccion IMPRESION;
+non terminal Instruccion EXPRESION;
 // PRECEDENCIA
 precedence left MAS, MENOS;
 precedence left POR, DIV;
@@ -48,21 +55,21 @@ precedence left UMENOS;
 // PRODUCCIONES Y GRAMATICAS
 start with INICIO;
 
-INICIO ::= INSTRUCCIONES;
+INICIO ::= INSTRUCCIONES:a {: RESULT = a; :};
 
-INSTRUCCIONES ::= INSTRUCCION
-                | INSTRUCCIONES INSTRUCCION
+INSTRUCCIONES ::= INSTRUCCION:a                 {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+                | INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
 ;
 
-INSTRUCCION ::= TEXTOS
-              | CODIGO
+INSTRUCCION ::= IMPRESION:a {: RESULT = a; :}
 ;
 
-TEXTOS ::= TITULOS
-         | TIPOS
-         | LISTAS
-         | PARRAFOS
+IMPRESION ::= PRINT PAR1 EXPRESION:a PAR2 {: RESULT = new Print(a, aleft, aright); :}
 ;
 
-TITULOS ::= HASH IDENTIFICADOR;
-
+EXPRESION ::= ENTERO:a          {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(TipoDato.ENTERO), aleft, aright ); :}    
+            | DECIMAL:a         {: RESULT = new Nativo(new Double(a), new Tipo(TipoDato.DECIMAL), aleft, aright ); :}
+            | CADENA:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+            | IDENTIFICADOR:a   {: RESULT = new AccesoVar(a, aleft, aright); :}
+            | PAR1 EXPRESION:a PAR2 {: RESULT = a; :}
+;

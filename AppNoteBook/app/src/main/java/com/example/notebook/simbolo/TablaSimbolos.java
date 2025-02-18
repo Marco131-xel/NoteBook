@@ -8,7 +8,7 @@ public class TablaSimbolos {
     private HashMap<String, Object> tablaActual;
     private String nombre;
 
-    public TablaSimbolos(){
+    public TablaSimbolos() {
         this.tablaActual = new HashMap<>();
         this.nombre = "";
     }
@@ -19,11 +19,11 @@ public class TablaSimbolos {
         this.nombre = "";
     }
 
-    public TablaSimbolos getTablaAnterior(){
+    public TablaSimbolos getTablaAnterior() {
         return this.tablaAnterior;
     }
 
-    public void setTablaAnterior(TablaSimbolos tablaAnterior){
+    public void setTablaAnterior(TablaSimbolos tablaAnterior) {
         this.tablaAnterior = tablaAnterior;
     }
 

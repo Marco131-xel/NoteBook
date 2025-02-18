@@ -75,5 +75,4 @@ public class Arbol {
         return this.contador;
 
     }
-
 }
