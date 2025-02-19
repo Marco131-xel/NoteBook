@@ -1,47 +1,34 @@
 package com.example.notebook
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.notebook.ui.theme.NoteBookTheme
+import com.example.notebook.patroninterprete.Patron
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            NoteBookTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+        val inputexto = findViewById<EditText>(R.id.texto)
+        val compilar = findViewById<Button>(R.id.BT_ejecutar)
+        val panelito = findViewById<TextView>(R.id.panelito)
+
+        compilar.setOnClickListener {
+            val codigo = inputexto.text.toString()
+            val resultado = ejecutarAnalizador(codigo)
+            panelito.text = resultado
         }
+
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NoteBookTheme {
-        Greeting("Android")
+    private fun ejecutarAnalizador(codigo: String): String {
+        return try {
+            Patron.ejecutar(codigo)
+        } catch (e: Exception){
+            "Error: ${e.message}"
+        }
     }
 }

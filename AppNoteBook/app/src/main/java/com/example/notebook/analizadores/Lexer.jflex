@@ -68,9 +68,9 @@ TEXTO=[*]([^\"])*[*]
 <YYINITIAL> {FORMAT} {return new Symbol(sym.FORMAT, yyline, yycolumn,yytext());}
 <YYINITIAL> {PLOT} {return new Symbol(sym.PLOT, yyline, yycolumn,yytext());}
 // PATRONES
-<YYINITIAL> {ENTERO} {return new Symbol(sym.PRINT, yyline, yycolumn,yytext());}
-<YYINITIAL> {DECIMAL} {return new Symbol(sym.PRINT, yyline, yycolumn,yytext());}
-<YYINITIAL> {IDENTIFICADOR} {return new Symbol(sym.PRINT, yyline, yycolumn,yytext());}
+<YYINITIAL> {ENTERO} {return new Symbol(sym.ENTERO, yyline, yycolumn,yytext());}
+<YYINITIAL> {DECIMAL} {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
+<YYINITIAL> {IDENTIFICADOR} {return new Symbol(sym.IDENTIFICADOR, yyline, yycolumn,yytext());}
 <YYINITIAL> {CADENA} {
     String cadena = yytext();
     cadena = cadena.substring(1, cadena.length()-1);
@@ -88,6 +88,7 @@ TEXTO=[*]([^\"])*[*]
     }
 <YYINITIAL> {BLANCOS} {/*VACIO*/}
 <YYINITIAL> . {
+                System.out.println("Error lexico detectado: " + yytext() + " en linea " + yyline + " columna " + yycolumn);
                 listaErrores.add(new Errores("LEXICO","El caracter "+
                 yytext()+" NO pertenece al lenguaje", yyline, yycolumn));
 }

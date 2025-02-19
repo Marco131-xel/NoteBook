@@ -10,12 +10,12 @@ public class sym {
   /* terminals */
   public static final int PLOT = 16;
   public static final int MENOS = 3;
-  public static final int CARET = 10;
+  public static final int CARET = 6;
   public static final int PUNTO = 12;
-  public static final int CADENA = 20;
-  public static final int IGUAL = 9;
-  public static final int DECIMAL = 18;
-  public static final int UMENOS = 8;
+  public static final int CADENA = 17;
+  public static final int IGUAL = 10;
+  public static final int DECIMAL = 19;
+  public static final int UMENOS = 9;
   public static final int POR = 4;
   public static final int HASH = 11;
   public static final int COMA = 13;
@@ -24,12 +24,12 @@ public class sym {
   public static final int TEXTO = 22;
   public static final int PRINT = 14;
   public static final int error = 1;
-  public static final int PAR2 = 7;
-  public static final int PAR1 = 6;
-  public static final int IDENTIFICADOR = 19;
+  public static final int PAR2 = 8;
+  public static final int PAR1 = 7;
+  public static final int IDENTIFICADOR = 20;
   public static final int HEADER = 21;
   public static final int FORMAT = 15;
-  public static final int ENTERO = 17;
+  public static final int ENTERO = 18;
   public static final int MAS = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -38,21 +38,21 @@ public class sym {
   "MENOS",
   "POR",
   "DIV",
+  "CARET",
   "PAR1",
   "PAR2",
   "UMENOS",
   "IGUAL",
-  "CARET",
   "HASH",
   "PUNTO",
   "COMA",
   "PRINT",
   "FORMAT",
   "PLOT",
+  "CADENA",
   "ENTERO",
   "DECIMAL",
   "IDENTIFICADOR",
-  "CADENA",
   "HEADER",
   "TEXTO"
   };

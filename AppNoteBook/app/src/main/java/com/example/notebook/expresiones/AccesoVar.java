@@ -15,7 +15,7 @@ public class AccesoVar extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
-        Simbolo valor = tabla.getVariable(this.id);
+        var valor = tabla.getVariable(this.id);
         if (valor == null) {
             return new Errores("SEMANTICA", "Variable no existente",
                     this.linea, this.col);

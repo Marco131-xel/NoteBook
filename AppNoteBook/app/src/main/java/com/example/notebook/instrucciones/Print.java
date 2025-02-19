@@ -15,7 +15,7 @@ public class Print extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
-        Object resultado = this.expresion.interpretar(arbol, tabla);
+        var resultado = this.expresion.interpretar(arbol, tabla);
         if (resultado instanceof Errores) {
             return resultado;
         }
