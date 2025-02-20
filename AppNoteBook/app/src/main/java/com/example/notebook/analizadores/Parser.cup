@@ -47,7 +47,7 @@ non terminal Instruccion EXPRESION;
 // PRECEDENCIA
 precedence left MAS, MENOS;
 precedence left POR, DIV;
-precedence left CARET;
+precedence right CARET;
 precedence left UMENOS;
 
 // PRODUCCIONES Y GRAMATICAS

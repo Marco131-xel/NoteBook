@@ -261,7 +261,7 @@ public class Aritmeticas extends Instruccion {
                 switch (tipo2) {
                     case ENTERO -> {
                         this.tipo.setTipo(TipoDato.ENTERO);
-                        return Math.pow((int) op1, (int) op2);
+                        return (int) Math.pow((int) op1, (int) op2);
                     }
                     case DECIMAL -> {
                         this.tipo.setTipo(TipoDato.DECIMAL);
