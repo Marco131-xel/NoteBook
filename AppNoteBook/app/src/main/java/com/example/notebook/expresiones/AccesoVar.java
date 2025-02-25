@@ -23,4 +23,9 @@ public class AccesoVar extends Instruccion {
         this.tipo.setTipo(valor.getTipo().getTipo());
         return valor.getValor();
     }
+
+    @Override
+    public String toString() {
+        return this.id;
+    }
 }

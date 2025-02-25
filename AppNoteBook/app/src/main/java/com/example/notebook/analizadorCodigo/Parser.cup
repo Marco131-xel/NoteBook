@@ -1,4 +1,4 @@
-package com.example.notebook.analizadores;
+package com.example.notebook.analizadorCodigo;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
@@ -16,6 +16,7 @@ parser code {:
     public LinkedList<Errores> listaErrores = new LinkedList<>();
 
     public void syntax_error(Symbol s){
+        System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
         listaErrores.add(new Errores("SINTACTICO RECUPERABLE",
                         "No se esperaba el componente "+s.value,
                         s.left,
@@ -23,6 +24,7 @@ parser code {:
     }
 
     public void unrecovered_syntax_error (Symbol s){
+        System.out.println("Error no recuperable: " + s.value + " en linea " + s.left + " columna " + s.right);
         listaErrores.add(new Errores("SINTACTICO NO RECUPERABLE",
                         "No se esperaba el componente "+s.value,
                         s.left,
@@ -33,21 +35,21 @@ parser code {:
 action code {::};
 
 // TERMINALES
-terminal MAS, MENOS, POR, DIV, CARET, PAR1, PAR2, UMENOS;
-terminal IGUAL, HASH, PUNTO, COMA;
+terminal MAS, MENOS, POR, DIV, PAR1, PAR2, UMENOS;
+terminal POTENCIA;
+terminal IGUAL, COMA;
 terminal PRINT, FORMAT, PLOT;
 terminal String CADENA, ENTERO, DECIMAL, IDENTIFICADOR;
-terminal String HEADER;
-terminal String TEXTO;
 // NO TERMINALES
 non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES;
 non terminal Instruccion INSTRUCCION;
-non terminal Instruccion IMPRESION;
+non terminal Instruccion IMPRESION, ASIGNARDECLARACION;
 non terminal Instruccion EXPRESION;
+non terminal Instruccion FORMATEAR, PLOTEAR;
 // PRECEDENCIA
 precedence left MAS, MENOS;
 precedence left POR, DIV;
-precedence right CARET;
+precedence right POTENCIA;
 precedence left UMENOS;
 
 // PRODUCCIONES Y GRAMATICAS
@@ -60,9 +62,22 @@ INSTRUCCIONES ::= INSTRUCCION:a                 {: RESULT = new LinkedList<>(); 
 ;
 
 INSTRUCCION ::= IMPRESION:a {: RESULT = a; :}
+              | ASIGNARDECLARACION:a {: RESULT = a; :}
+              | FORMATEAR:a {: RESULT = a; :}
+              | PLOTEAR:a {: RESULT = a; :}
+              | error {: System.out.println("Recuperacion de error sintactico en linea "); :}
 ;
 
 IMPRESION ::= PRINT PAR1 EXPRESION:a PAR2 {: RESULT = new Print(a, aleft, aright); :}
+;
+
+ASIGNARDECLARACION ::= IDENTIFICADOR:a IGUAL EXPRESION:b  {: RESULT = new AsignacionODeclaracion(a, b, aleft, aright); :}
+;
+
+FORMATEAR ::= FORMAT PAR1 EXPRESION:a PAR2 {: RESULT = new Format(a, aleft, aright); :}
+;
+
+PLOTEAR ::= PLOT PAR1 EXPRESION:a COMA EXPRESION:b COMA EXPRESION:c PAR2 {: RESULT = new Plot(a, b, c, aleft, aright); :}
 ;
 
 EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
@@ -70,7 +85,7 @@ EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmet
             | EXPRESION:a MENOS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); :}
             | EXPRESION:a POR EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); :}
             | EXPRESION:a DIV EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); :}
-            | EXPRESION:a CARET EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); :}
+            | EXPRESION:a POTENCIA EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); :}
             | ENTERO:a          {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(TipoDato.ENTERO), aleft, aright ); :}
             | DECIMAL:a         {: RESULT = new Nativo(new Double(a), new Tipo(TipoDato.DECIMAL), aleft, aright ); :}
             | CADENA:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}

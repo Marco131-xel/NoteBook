@@ -1,25 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/texto"
-        android:layout_width="240dp"
-        android:layout_height="74dp"
-        android:ems="10"
-        android:hint="Escribe Aqui"
-        android:inputType="text" />
-
-    <Button
-        android:id="@+id/BT_ejecutar"
-        android:layout_width="170dp"
+    <!-- Contenedor superior con los botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Compilar" />
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:weightSum="3">
 
-    <TextView
-        android:id="@+id/panelito"
-        android:layout_width="228dp"
-        android:layout_height="134dp" />
+        <!-- Botón "Texto" (Azul) -->
+        <Button
+            android:id="@+id/btnTexto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Texto"
+            android:backgroundTint="@color/blue"
+            android:textColor="@android:color/white"/>
+
+        <!-- Botón "Código" (Verde) -->
+        <Button
+            android:id="@+id/btnCodigo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Codigo"
+            android:backgroundTint="@color/green"
+            android:textColor="@android:color/white"/>
+
+        <!-- Botón "Reportes" con borde y sin fondo -->
+        <Button
+            android:id="@+id/btnReportes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Reportes"
+            android:backgroundTint="@color/purple"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+    <!-- Espacio para cambiar entre "Texto" y "Código" -->
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Sección para Texto -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/etTexto"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="Escribe texto aquí"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="textMultiLine"/>
+
+            <TextView
+                android:id="@+id/tvTextoSalida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salida del texto"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Sección para Código -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/etCodigo"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="Escribe código aquí"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="textMultiLine"/>
+
+            <TextView
+                android:id="@+id/tvCodigoSalida"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salida del código"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+    </ViewFlipper>
+
 </LinearLayout>

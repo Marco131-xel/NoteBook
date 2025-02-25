@@ -1,0 +1,99 @@
+package com.example.notebook.analizadorTexto;
+
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+import com.example.notebook.abstracto.Instruccion;
+import com.example.notebook.excepciones.Errores;
+import com.example.notebook.simbolo.*;
+import com.example.notebook.expresiones.*;
+import com.example.notebook.textos.*;
+
+// CODIGO USUARIO
+parser code {:
+    lexer s;
+    parser(lexer s){this.s =s;}
+
+    public LinkedList<Errores> listaErrores = new LinkedList<>();
+
+    public void syntax_error(Symbol s){
+        System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
+        listaErrores.add(new Errores("SINTACTICO RECUPERABLE",
+                        "No se esperaba el componente "+s.value,
+                        s.left,
+                        s.right));
+    }
+
+    public void unrecovered_syntax_error (Symbol s){
+        System.out.println("Error no recuperable: " + s.value + " en linea " + s.left + " columna " + s.right);
+        listaErrores.add(new Errores("SINTACTICO NO RECUPERABLE",
+                        "No se esperaba el componente "+s.value,
+                        s.left,
+                        s.right));
+    }
+:};
+
+action code {::};
+
+// TERMINALES
+terminal String HEADER;
+terminal String BOLD_ITALIC, BOLD, ITALIC;
+terminal String LISTA, NUM_PUNTO;
+terminal String PARRAFO;
+// NO TERMINALES
+non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES;
+non terminal Instruccion INSTRUCCION;
+non terminal Instruccion TITULO, TEXTEAR;
+non terminal Instruccion PBI, PB, PI;
+non terminal Instruccion HEAD;
+non terminal Instruccion LISTAMAS, LISTANUM;
+non terminal Instruccion LT;
+non terminal Instruccion LN;
+non terminal Instruccion CONTENIDO;
+non terminal Instruccion LINEA;
+
+// PRODUCCIONES Y GRAMATICAS
+start with INICIO;
+
+INICIO ::= INSTRUCCIONES:a {: RESULT = a; :};
+
+INSTRUCCIONES ::= INSTRUCCION:a                 {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+                | INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
+;
+
+INSTRUCCION ::= TITULO:a {: RESULT = a; :}
+              | TEXTEAR:a {: RESULT = a; :}
+              | LISTAMAS:a {: RESULT = a; :}
+              | LISTANUM:a {: RESULT = a; :}
+              | CONTENIDO:a {: RESULT = a; :}
+              | error {: System.out.println("Recuperacion de error sintA en linea "); :}
+;
+// DIFERENTES TIPOS DE TEXTOS
+TITULO ::= PBI:a {: RESULT = new Negrita_Italica(a, aleft, aright); :}
+         | PB:a {: RESULT = new Negrita(a, aleft, aright); :}
+         | PI:a {: RESULT = new Italica(a, aleft, aright); :}
+;
+PI ::= ITALIC:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+;
+PB ::= BOLD:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+;
+PBI ::= BOLD_ITALIC:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+;
+// PARA CREAR HEADER
+TEXTEAR ::= HEAD:a {: RESULT = new Header(a, aleft, aright); :}
+;
+HEAD ::= HEADER:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+;
+// PARA CREAR LISTAS
+LISTAMAS ::= LT:a {: RESULT = new ListaMas(a, aleft, aright); :}
+;
+LT ::= LISTA:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+;
+LISTANUM ::= LN:a {: RESULT = new ListaNum(a, aleft, aright); :}
+;
+LN ::= NUM_PUNTO:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+;
+// PARA CREAR PARRAFOS
+CONTENIDO ::= LINEA:a {: RESULT = new Parrafo(a, aleft, aright); :}
+;
+LINEA ::= PARRAFO:a {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}
+;

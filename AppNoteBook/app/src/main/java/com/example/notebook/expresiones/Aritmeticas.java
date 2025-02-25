@@ -17,6 +17,7 @@ public class Aritmeticas extends Instruccion {
         this.operacion = operacion;
         this.operandoUnico = operandoUnico;
     }
+
     // operacion dos
     public Aritmeticas(Instruccion operando1, Instruccion operando2, OperadoresAritmeticos operacion, int linea, int col) {
         super(new Tipo(TipoDato.ENTERO), linea, col);
@@ -36,30 +37,30 @@ public class Aritmeticas extends Instruccion {
             }
         } else {
             opIzq = this.operando1.interpretar(arbol, tabla);
-            if (opIzq instanceof  Errores){
+            if (opIzq instanceof Errores) {
                 return opIzq;
             }
             opDer = this.operando2.interpretar(arbol, tabla);
-            if (opDer instanceof Errores){
+            if (opDer instanceof Errores) {
                 return opDer;
             }
         }
         return switch (operacion) {
             case SUMA ->
-                this.suma(opIzq, opDer);
+                    this.suma(opIzq, opDer);
             case NEGACION ->
-                this.negacion(unico);
+                    this.negacion(unico);
             case RESTA ->
-                this.resta(opIzq, opDer);
+                    this.resta(opIzq, opDer);
             case MULTIPLICACION ->
-                this.multiplicar(opIzq, opDer);
+                    this.multiplicar(opIzq, opDer);
             case DIVISION ->
-                this.division(opIzq, opDer);
+                    this.division(opIzq, opDer);
             case POTENCIA ->
-                this.potencia(opIzq, opDer);
+                    this.potencia(opIzq, opDer);
             default ->
-                new Errores("Semantico", "Operador invalido", this.linea, this.col);
-            };
+                    new Errores("Semantico", "Operador invalido", this.linea, this.col);
+        };
     }
 
     // Funcion para sumar
@@ -118,11 +119,11 @@ public class Aritmeticas extends Instruccion {
     }
 
     // Funcion para restar
-    public Object resta(Object op1, Object op2){
+    public Object resta(Object op1, Object op2) {
         var tipo1 = this.operando1.tipo.getTipo();
         var tipo2 = this.operando2.tipo.getTipo();
 
-        switch (tipo1){
+        switch (tipo1) {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
@@ -161,11 +162,11 @@ public class Aritmeticas extends Instruccion {
     }
 
     // Funcion para multiplicar
-    public Object multiplicar(Object op1, Object op2){
+    public Object multiplicar(Object op1, Object op2) {
         var tipo1 = this.operando1.tipo.getTipo();
         var tipo2 = this.operando2.tipo.getTipo();
 
-        switch (tipo1){
+        switch (tipo1) {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
@@ -209,7 +210,7 @@ public class Aritmeticas extends Instruccion {
         var tipo2 = this.operando2.tipo.getTipo();
 
         // Verificacion de division por cero
-        if((tipo2 == TipoDato.ENTERO && (int) op2 == 0) || (tipo2 == TipoDato.DECIMAL && (double) op2 == 0.0)){
+        if ((tipo2 == TipoDato.ENTERO && (int) op2 == 0) || (tipo2 == TipoDato.DECIMAL && (double) op2 == 0.0)) {
             return new Errores("SEMANTICO", "Division por cero no permitido", this.linea, this.col);
         }
 
@@ -217,8 +218,8 @@ public class Aritmeticas extends Instruccion {
             case ENTERO -> {
                 switch (tipo2) {
                     case ENTERO -> {
-                        this.tipo.setTipo(TipoDato.ENTERO);
-                        return (int) op1 / (int) op2;
+                        this.tipo.setTipo(TipoDato.DECIMAL);
+                        return (double) (int) op1 / (int) op2;
                     }
                     case DECIMAL -> {
                         this.tipo.setTipo(TipoDato.DECIMAL);
@@ -310,4 +311,57 @@ public class Aritmeticas extends Instruccion {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        if (operandoUnico != null) {
+            return "-" + operandoUnico.toString();
+        }
+
+        String operador = switch (this.operacion) {
+            case SUMA ->
+                    "+";
+            case RESTA ->
+                    "-";
+            case MULTIPLICACION ->
+                    "*";
+            case DIVISION ->
+                    "/";
+            case POTENCIA ->
+                    "^";
+            default ->
+                    "?";
+        };
+
+        String izq = operando1.toString();
+        String der = operando2.toString();
+
+        int prioridadActual = getPrioridad(this.operacion);
+        int prioridadIzq = (operando1 instanceof Aritmeticas) ? getPrioridad(((Aritmeticas) operando1).operacion) : Integer.MAX_VALUE;
+        int prioridadDer = (operando2 instanceof Aritmeticas) ? getPrioridad(((Aritmeticas) operando2).operacion) : Integer.MAX_VALUE;
+
+        if (prioridadIzq < prioridadActual) {
+            izq = "(" + izq + ")";
+        }
+        if (prioridadDer <= prioridadActual) {
+            der = "(" + der + ")";
+        }
+
+        return izq + " " + operador + " " + der;
+    }
+
+    // metodo para prioridad de operadores
+    private int getPrioridad(OperadoresAritmeticos op) {
+        return switch (op) {
+            case SUMA, RESTA ->
+                    1;
+            case MULTIPLICACION, DIVISION ->
+                    2;
+            case POTENCIA ->
+                    3;
+            default ->
+                    0;
+        };
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.notebook.analizadores;
+package com.example.notebook.analizadorCodigo;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
@@ -26,6 +26,7 @@ import com.example.notebook.excepciones.Errores;
 %full
 
 // TOKENS
+POTENCIA="$"
 MAS="+"
 MENOS="-"
 POR="*"
@@ -33,9 +34,6 @@ DIV="/"
 PAR1="("
 PAR2=")"
 IGUAL="="
-CARET="$"
-HASH="#"
-PUNTO="."
 COMA=","
 // PALABRAS RESERVADAS
 PRINT="print"
@@ -47,11 +45,10 @@ ENTERO=[0-9]+
 DECIMAL=[0-9]+"."[0-9]+
 IDENTIFICADOR=[a-zA-z][a-zA-Z0-9_]*
 CADENA=[\"]([^\"])*[\"]
-HEADER=[#]([^\"])*[#]
-TEXTO=[*]([^\"])*[*]
 %%
 
 // TOKENS
+<YYINITIAL> {POTENCIA} {System.out.println("TOKEN POT DETECTADO: " + yytext()); return new Symbol(sym.POTENCIA, yyline, yycolumn,yytext());}
 <YYINITIAL> {MAS} {return new Symbol(sym.MAS, yyline, yycolumn,yytext());}
 <YYINITIAL> {MENOS} {return new Symbol(sym.MENOS, yyline, yycolumn,yytext());}
 <YYINITIAL> {POR} {return new Symbol(sym.POR, yyline, yycolumn,yytext());}
@@ -59,9 +56,6 @@ TEXTO=[*]([^\"])*[*]
 <YYINITIAL> {PAR1} {return new Symbol(sym.PAR1, yyline, yycolumn,yytext());}
 <YYINITIAL> {PAR2} {return new Symbol(sym.PAR2, yyline, yycolumn,yytext());}
 <YYINITIAL> {IGUAL} {return new Symbol(sym.IGUAL, yyline, yycolumn,yytext());}
-<YYINITIAL> {CARET} {return new Symbol(sym.CARET, yyline, yycolumn,yytext());}
-<YYINITIAL> {HASH} {return new Symbol(sym.HASH, yyline, yycolumn,yytext());}
-<YYINITIAL> {PUNTO} {return new Symbol(sym.PUNTO, yyline, yycolumn,yytext());}
 <YYINITIAL> {COMA} {return new Symbol(sym.COMA, yyline, yycolumn,yytext());}
 // PALABRAS RESERVADAS
 <YYINITIAL> {PRINT} {return new Symbol(sym.PRINT, yyline, yycolumn,yytext());}
@@ -75,16 +69,6 @@ TEXTO=[*]([^\"])*[*]
     String cadena = yytext();
     cadena = cadena.substring(1, cadena.length()-1);
     return new Symbol(sym.CADENA, yyline, yycolumn,cadena);
-    }
-<YYINITIAL> {HEADER} {
-    String header = yytext();
-    header = header.substring(1, header.length()-1);
-    return new Symbol(sym.HEADER, yyline, yycolumn,header);
-    }
-<YYINITIAL> {TEXTO} {
-    String texto = yytext();
-    texto = texto.substring(1, texto.length()-1);
-    return new Symbol(sym.TEXTO, yyline, yycolumn,texto);
     }
 <YYINITIAL> {BLANCOS} {/*VACIO*/}
 <YYINITIAL> . {
