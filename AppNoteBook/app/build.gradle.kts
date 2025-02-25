@@ -44,11 +44,9 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/LICENSE-LGPL-3.txt"
-            excludes += "/META-INF/LICENSE-LGPL-2.1.txt"
-            excludes += "/META-INF/DEPENDENCIES"
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes += "/META-INF/COPYING"
+            excludes += "/META-INF/{AL2.0,LGPL2.1,COPYING,LICENSE-LGPL-3.txt,DEPENDENCIES,LICENSE-LGPL-2.1.txt,LICENSE-W3C-TEST}"
+            excludes += "/META-INF/*.txt"  // Excluye todos los archivos .txt dentro de META-INF
+            excludes += "/META-INF/*.md"   // Excluye todos los archivos .md dentro de META-INF
         }
     }
 }
@@ -65,8 +63,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.constraintlayout)
     implementation("com.github.vbmacher:java-cup-runtime:11b-20160615") // JAVACUPRUNTIME
-    implementation("org.scilab.forge:jlatexmath:1.0.7") //MARKDOWN
-    implementation("com.vladsch.flexmark:flexmark-all:0.64.8") // JLATEXMATH
+    implementation("org.scilab.forge:jlatexmath:1.0.7") // JLATEXMATH
+    implementation("com.vladsch.flexmark:flexmark-all:0.64.8") // MARKDOWN
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

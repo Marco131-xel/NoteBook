@@ -51,13 +51,10 @@ public class Texto {
             // Devolvemos tanto el HTML como los errores
             return new String[]{htmlContent, erroresStr.toString()};
 
-
         } catch (Exception e) {
             return new String[]{"", "Error: " + e.getMessage()};
         }
     }
-
-
 
     // Metodo para convertir el contenido MARKDOWN
     private static String convertirMarkdown(String markdown) {
