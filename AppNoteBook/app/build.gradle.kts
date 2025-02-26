@@ -65,6 +65,7 @@ dependencies {
     implementation("com.github.vbmacher:java-cup-runtime:11b-20160615") // JAVACUPRUNTIME
     implementation("org.scilab.forge:jlatexmath:1.0.7") // JLATEXMATH
     implementation("com.vladsch.flexmark:flexmark-all:0.64.8") // MARKDOWN
+    implementation ("androidx.appcompat:appcompat:1.6.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
