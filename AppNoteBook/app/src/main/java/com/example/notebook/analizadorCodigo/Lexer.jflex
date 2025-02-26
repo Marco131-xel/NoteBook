@@ -26,7 +26,7 @@ import com.example.notebook.excepciones.Errores;
 %full
 
 // TOKENS
-POTENCIA="$"
+POTENCIA="^"
 MAS="+"
 MENOS="-"
 POR="*"
@@ -43,12 +43,12 @@ PLOT="plot"
 BLANCOS=[\ \r\t\f\n]+
 ENTERO=[0-9]+
 DECIMAL=[0-9]+"."[0-9]+
-IDENTIFICADOR=[a-zA-z][a-zA-Z0-9_]*
+IDENTIFICADOR=[a-zA-Z][a-zA-Z0-9_]*
 CADENA=[\"]([^\"])*[\"]
 %%
 
 // TOKENS
-<YYINITIAL> {POTENCIA} {System.out.println("TOKEN POT DETECTADO: " + yytext()); return new Symbol(sym.POTENCIA, yyline, yycolumn,yytext());}
+<YYINITIAL> {POTENCIA} {return new Symbol(sym.POTENCIA, yyline, yycolumn,yytext());}
 <YYINITIAL> {MAS} {return new Symbol(sym.MAS, yyline, yycolumn,yytext());}
 <YYINITIAL> {MENOS} {return new Symbol(sym.MENOS, yyline, yycolumn,yytext());}
 <YYINITIAL> {POR} {return new Symbol(sym.POR, yyline, yycolumn,yytext());}
