@@ -59,7 +59,7 @@ public class Aritmeticas extends Instruccion {
             case POTENCIA ->
                     this.potencia(opIzq, opDer);
             default ->
-                    new Errores("Semantico", "Operador invalido", this.linea, this.col);
+                    new Errores("SEMANTICO", "Operador invalido", this.linea, this.col);
         };
     }
 
@@ -84,7 +84,7 @@ public class Aritmeticas extends Instruccion {
                         return op1.toString() + op2.toString();
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Suma erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Suma Erronea", this.linea, this.col);
                     }
                 }
             }
@@ -103,7 +103,7 @@ public class Aritmeticas extends Instruccion {
                         return op1.toString() + op2.toString();
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Suma erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Suma erronea", this.linea, this.col);
                     }
                 }
             }
@@ -112,7 +112,7 @@ public class Aritmeticas extends Instruccion {
                 return op1.toString() + op2.toString();
             }
             default -> {
-                return new Errores("SEMANTICO", "Suma erronea", this.linea, this.col);
+                return new Errores("SEMANTICO", "No existe una Suma", this.linea, this.col);
 
             }
         }
@@ -135,7 +135,7 @@ public class Aritmeticas extends Instruccion {
                         return (int) op1 - (double) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Resta erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Resta erronea", this.linea, this.col);
                     }
                 }
             }
@@ -150,12 +150,12 @@ public class Aritmeticas extends Instruccion {
                         return (double) op1 - (double) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Resta erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Resta erronea", this.linea, this.col);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "Suma erronea", this.linea, this.col);
+                return new Errores("SEMANTICO", "No existe una Resta", this.linea, this.col);
 
             }
         }
@@ -178,7 +178,7 @@ public class Aritmeticas extends Instruccion {
                         return (int) op1 * (double) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Multiplicacion erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Multiplicacion erronea", this.linea, this.col);
                     }
                 }
             }
@@ -193,12 +193,12 @@ public class Aritmeticas extends Instruccion {
                         return (double) op1 * (double) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Multiplicacion erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Multiplicacion erronea", this.linea, this.col);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "Suma erronea", this.linea, this.col);
+                return new Errores("SEMANTICO", "No exite una Multiplicacion", this.linea, this.col);
 
             }
         }
@@ -226,7 +226,7 @@ public class Aritmeticas extends Instruccion {
                         return (int) op1 / (double) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Division erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Division erronea", this.linea, this.col);
                     }
                 }
             }
@@ -241,12 +241,12 @@ public class Aritmeticas extends Instruccion {
                         return (double) op1 / (double) op2;
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Division erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Division erronea", this.linea, this.col);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "Division erronea", this.linea, this.col);
+                return new Errores("SEMANTICO", "No existe una Division", this.linea, this.col);
 
             }
         }
@@ -269,7 +269,7 @@ public class Aritmeticas extends Instruccion {
                         return Math.pow((int) op1, (double) op2);
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Potencia erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Potencia erronea", this.linea, this.col);
                     }
                 }
             }
@@ -284,12 +284,12 @@ public class Aritmeticas extends Instruccion {
                         return Math.pow((double) op1, (double) op2);
                     }
                     default -> {
-                        return new Errores("SEMANTICO", "Potencia erronea", this.linea, this.col);
+                        return new Errores("SEMANTICO", "Tipo de Potencia erronea", this.linea, this.col);
                     }
                 }
             }
             default -> {
-                return new Errores("SEMANTICO", "Potencia erronea", this.linea, this.col);
+                return new Errores("SEMANTICO", "No existe una Potencia", this.linea, this.col);
             }
         }
     }
@@ -307,7 +307,7 @@ public class Aritmeticas extends Instruccion {
                 return (double) op1 * -1;
             }
             default -> {
-                return new Errores("SEMANTICO", "Negacion erronea", this.linea, this.col);
+                return new Errores("SEMANTICO", "Tipo de Negacion Erronea", this.linea, this.col);
             }
         }
     }

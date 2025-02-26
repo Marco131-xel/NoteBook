@@ -16,7 +16,6 @@ class MainActivity : ComponentActivity() {
         // Botones Inferiores
         val btnTexto = findViewById<Button>(R.id.btnTexto)
         val btnCodigo = findViewById<Button>(R.id.btnCodigo)
-        val btnReportes = findViewById<Button>(R.id.btnReportes)
         // Elemento de codigo
         val etCodigo = findViewById<EditText>(R.id.etCodigo)
         val salCodigo = findViewById<TextView>(R.id.tvCodigoSalida)

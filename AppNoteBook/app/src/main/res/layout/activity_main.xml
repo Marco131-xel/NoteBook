@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="NoteBook"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:gravity="center"
         android:padding="16dp"
@@ -31,7 +31,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="visible">
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Crea Codigo Matematico"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:padding="16dp"
+                android:textColor="@android:color/white"/>
             <!-- Historial de salida -->
             <TextView
                 android:id="@+id/tvCodigoSalida"
@@ -45,7 +53,7 @@
                 android:background="@drawable/border_historial"
                 android:visibility="gone"/>
 
-            <!-- Entrada de código -->
+            <!-- Entrada de codigo -->
             <EditText
                 android:id="@+id/etCodigo"
                 android:layout_width="match_parent"
@@ -74,7 +82,7 @@
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <!-- Botones de acción -->
+            <!-- Botones de accion -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,6 +115,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Crea Texto Markdown"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:padding="16dp"
+                android:textColor="@android:color/white"/>
 
             <!-- Historial de salida -->
             <TextView
@@ -149,7 +167,7 @@
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <!-- Botones de acción -->
+            <!-- Botones de accion -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,7 +200,7 @@
         android:layout_height="56dp"
         android:orientation="horizontal"
         android:background="#34495e"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <Button
             android:id="@+id/btnTexto"
@@ -198,16 +216,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Código"
-            android:textColor="#FFFFFF"
-            android:background="#34495e"/>
-
-        <Button
-            android:id="@+id/btnReportes"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Reportes"
+            android:text="Codigo"
             android:textColor="#FFFFFF"
             android:background="#34495e"/>
     </LinearLayout>

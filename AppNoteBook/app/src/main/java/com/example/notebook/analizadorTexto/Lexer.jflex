@@ -47,5 +47,5 @@ BLANCOS=[\ \r\t\f\n]+
 <YYINITIAL> . {
                 System.out.println("Error lexico detectado: " + yytext() + " en linea " + yyline + " columna " + yycolumn);
                 listaErrores.add(new Errores("LEXICO","El caracter "+
-                yytext()+" NO pertenece al lenguaje", yyline, yycolumn));
+                yytext()+" No pertenece al lenguaje NoteBook", yyline, yycolumn));
 }

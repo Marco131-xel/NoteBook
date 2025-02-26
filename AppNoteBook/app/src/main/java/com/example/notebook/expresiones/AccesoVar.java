@@ -17,7 +17,7 @@ public class AccesoVar extends Instruccion {
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
         var valor = tabla.getVariable(this.id);
         if (valor == null) {
-            return new Errores("SEMANTICA", "Variable no existente",
+            return new Errores("SEMANTICA", "La Variable no Existe",
                     this.linea, this.col);
         }
         this.tipo.setTipo(valor.getTipo().getTipo());

@@ -193,7 +193,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
     public void syntax_error(Symbol s){
         System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
-        listaErrores.add(new Errores("SINTACTICO RECUPERABLE",
+        listaErrores.add(new Errores("SINTACTICO",
                         "No se esperaba el componente "+s.value,
                         s.left,
                         s.right));
