@@ -45,6 +45,7 @@ class MainActivity : ComponentActivity() {
             contenedorTexto.visibility = View.GONE
         }
         // Boton compilar Texto
+        var historialTexto = ""
         compiTexto.setOnClickListener{
             val texto = etTexto.text.toString()
             if (texto.isNotEmpty()){
@@ -59,7 +60,8 @@ class MainActivity : ComponentActivity() {
                 }
 
                 if (errores.isEmpty()) {
-                    salTexto.text = Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT)
+                    historialTexto += "<br>$html"
+                    salTexto.text = Html.fromHtml(historialTexto, Html.FROM_HTML_MODE_COMPACT)
                     salTexto.visibility = View.VISIBLE
                 }
             }
@@ -71,16 +73,13 @@ class MainActivity : ComponentActivity() {
                 val (consola, errores) = analizadorCodigo(codigo)
 
                 if (errores.isNotEmpty()) {
-                    // Mostrar los errores y NO borrar el código
                     errorCodigo.text = errores
                     errorContainer.visibility = View.VISIBLE
                 } else {
-                    // Si el código es correcto, limpiar la entrada y ocultar errores
                     etCodigo.text.clear()
                     errorContainer.visibility = View.GONE
                 }
 
-                // Si hay errores, NO aumentar el historial
                 if (errores.isEmpty()) {
                     val salidaAnterior = salCodigo.text.toString()
                     salCodigo.text = if (salidaAnterior.isEmpty()) consola else "$salidaAnterior\n$consola"
@@ -94,6 +93,7 @@ class MainActivity : ComponentActivity() {
         }
         // Boton limpiar texto
         btnLimpiarTexto.setOnClickListener{
+            historialTexto = ""
             salTexto.text = ""
         }
     }
