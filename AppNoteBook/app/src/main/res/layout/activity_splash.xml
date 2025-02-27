@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="#212f3c">
+
+    <!-- Texto grande "NoteBook" -->
+    <TextView
+        android:id="@+id/txtNotebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NoteBook"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:textColor="@color/white" />
+
+    <!-- Espacio entre los textos -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <!-- Texto pequeño "from Marco Chiché 201832053" -->
+    <TextView
+        android:id="@+id/txtFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="by\nMarco Chiché\n201832053"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:textColor="@color/white"/>
+</LinearLayout>
