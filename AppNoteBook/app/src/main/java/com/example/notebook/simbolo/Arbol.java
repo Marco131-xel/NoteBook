@@ -12,6 +12,7 @@ public class Arbol {
     public LinkedList<Errores> errores;
     private LinkedList<Instruccion> funciones;
     public int contador;
+    private static LinkedList<Errores> historialErrores = new LinkedList<>();
 
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
@@ -52,6 +53,7 @@ public class Arbol {
 
     public void setErrores(LinkedList<Errores> errores) {
         this.errores = errores;
+        agregarErrores(errores);
     }
 
     public void Print(String valor) {
@@ -75,4 +77,17 @@ public class Arbol {
         return this.contador;
 
     }
+
+    public static LinkedList<Errores> getHistorialErrores() {
+        return historialErrores;
+    }
+
+    public static void agregarErrores(LinkedList<Errores> nuevosErrores) {
+        historialErrores.addAll(nuevosErrores);
+    }
+
+    public static void limpiarHistorialErrores() {
+        historialErrores.clear();
+    }
+
 }

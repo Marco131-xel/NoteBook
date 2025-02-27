@@ -35,10 +35,14 @@ PAR1="("
 PAR2=")"
 IGUAL="="
 COMA=","
+PUNTO="."
 // PALABRAS RESERVADAS
 PRINT="print"
 FORMAT="format"
 PLOT="plot"
+REPORTE="reportes"
+ERRORES="errores"
+OPERADORES="operadores"
 // PATRONES
 BLANCOS=[\ \r\t\f\n]+
 ENTERO=[0-9]+
@@ -48,7 +52,7 @@ CADENA=[\"]([^\"])*[\"]
 %%
 
 // TOKENS
-<YYINITIAL> {POTENCIA} {return new Symbol(sym.POTENCIA, yyline, yycolumn,yytext());}
+<YYINITIAL> {POTENCIA} {System.out.println("TOKEN POT DETECTADO: " + yytext()); return new Symbol(sym.POTENCIA, yyline, yycolumn,yytext());}
 <YYINITIAL> {MAS} {return new Symbol(sym.MAS, yyline, yycolumn,yytext());}
 <YYINITIAL> {MENOS} {return new Symbol(sym.MENOS, yyline, yycolumn,yytext());}
 <YYINITIAL> {POR} {return new Symbol(sym.POR, yyline, yycolumn,yytext());}
@@ -57,10 +61,14 @@ CADENA=[\"]([^\"])*[\"]
 <YYINITIAL> {PAR2} {return new Symbol(sym.PAR2, yyline, yycolumn,yytext());}
 <YYINITIAL> {IGUAL} {return new Symbol(sym.IGUAL, yyline, yycolumn,yytext());}
 <YYINITIAL> {COMA} {return new Symbol(sym.COMA, yyline, yycolumn,yytext());}
+<YYINITIAL> {PUNTO} {return new Symbol(sym.PUNTO, yyline, yycolumn,yytext());}
 // PALABRAS RESERVADAS
 <YYINITIAL> {PRINT} {return new Symbol(sym.PRINT, yyline, yycolumn,yytext());}
 <YYINITIAL> {FORMAT} {return new Symbol(sym.FORMAT, yyline, yycolumn,yytext());}
 <YYINITIAL> {PLOT} {return new Symbol(sym.PLOT, yyline, yycolumn,yytext());}
+<YYINITIAL> {REPORTE} {return new Symbol(sym.REPORTE, yyline, yycolumn,yytext());}
+<YYINITIAL> {ERRORES} {return new Symbol(sym.ERRORES, yyline, yycolumn,yytext());}
+<YYINITIAL> {OPERADORES} {return new Symbol(sym.OPERADORES, yyline, yycolumn,yytext());}
 // PATRONES
 <YYINITIAL> {ENTERO} {return new Symbol(sym.ENTERO, yyline, yycolumn,yytext());}
 <YYINITIAL> {DECIMAL} {return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());}
@@ -74,5 +82,5 @@ CADENA=[\"]([^\"])*[\"]
 <YYINITIAL> . {
                 System.out.println("Error lexico detectado: " + yytext() + " en linea " + yyline + " columna " + yycolumn);
                 listaErrores.add(new Errores("LEXICO","El caracter "+
-                yytext()+" No pertenece al lenguaje NoteBook", yyline, yycolumn));
+                yytext()+" No pertenece al lenguaje", yyline, yycolumn));
 }

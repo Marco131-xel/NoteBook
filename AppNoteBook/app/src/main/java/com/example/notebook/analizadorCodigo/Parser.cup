@@ -1,19 +1,27 @@
 package com.example.notebook.analizadorCodigo;
 
 import java_cup.runtime.Symbol;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import com.example.notebook.abstracto.Instruccion;
 import com.example.notebook.excepciones.Errores;
 import com.example.notebook.simbolo.*;
 import com.example.notebook.expresiones.*;
 import com.example.notebook.instrucciones.*;
+import com.example.notebook.reportes.*;
 
 // CODIGO USUARIO
 parser code {:
     Lexer s;
-    parser(Lexer s){this.s =s;}
+    parser(Lexer s) {
+        this.s =s;
+        this.listaErrores = s.listaErrores;
+    }
 
     public LinkedList<Errores> listaErrores = new LinkedList<>();
+    public List<Ocurrencia> ocurrencias = new ArrayList<>();
+    public List<Ocurrencia> historialOcurrencias = new ArrayList<>();
 
     public void syntax_error(Symbol s){
         System.out.println("Error sintactico detectado: " + s.value + " en linea " + s.left + " columna " + s.right);
@@ -30,6 +38,25 @@ parser code {:
                         s.left,
                         s.right));
     }
+
+    public List<Ocurrencia> getOcurrencia(){
+        return ocurrencias;
+    }
+
+    public void registrarOcurrencia(String operador, int linea, int columna, String expresion) {
+        Ocurrencia nueva = new Ocurrencia(operador, linea, columna, expresion);
+        ocurrencias.add(nueva);
+        historialOcurrencias.add(nueva);
+    }
+
+    public List<Ocurrencia> getHistorialOcurrencias(){
+        return historialOcurrencias;
+    }
+
+    public parser getParser() {
+    return this;
+    }
+
 :};
 
 action code {::};
@@ -37,8 +64,8 @@ action code {::};
 // TERMINALES
 terminal MAS, MENOS, POR, DIV, PAR1, PAR2, UMENOS;
 terminal POTENCIA;
-terminal IGUAL, COMA;
-terminal PRINT, FORMAT, PLOT;
+terminal IGUAL, COMA, PUNTO;
+terminal PRINT, FORMAT, PLOT, REPORTE, ERRORES, OPERADORES;
 terminal String CADENA, ENTERO, DECIMAL, IDENTIFICADOR;
 // NO TERMINALES
 non terminal LinkedList<Instruccion>INICIO, INSTRUCCIONES;
@@ -46,6 +73,7 @@ non terminal Instruccion INSTRUCCION;
 non terminal Instruccion IMPRESION, ASIGNARDECLARACION;
 non terminal Instruccion EXPRESION;
 non terminal Instruccion FORMATEAR, PLOTEAR;
+non terminal Instruccion REPOERROR, REPOPE;
 // PRECEDENCIA
 precedence left MAS, MENOS;
 precedence left POR, DIV;
@@ -65,6 +93,8 @@ INSTRUCCION ::= IMPRESION:a {: RESULT = a; :}
               | ASIGNARDECLARACION:a {: RESULT = a; :}
               | FORMATEAR:a {: RESULT = a; :}
               | PLOTEAR:a {: RESULT = a; :}
+              | REPOERROR:a {: RESULT = a; :}
+              | REPOPE:a {: RESULT = a; :}
               | error {: System.out.println("Recuperacion de error sintactico en linea "); :}
 ;
 
@@ -80,12 +110,18 @@ FORMATEAR ::= FORMAT PAR1 EXPRESION:a PAR2 {: RESULT = new Format(a, aleft, arig
 PLOTEAR ::= PLOT PAR1 EXPRESION:a COMA EXPRESION:b COMA EXPRESION:c PAR2 {: RESULT = new Plot(a, b, c, aleft, aright); :}
 ;
 
+REPOERROR ::= REPORTE PUNTO ERRORES:p PAR1 PAR2 {: RESULT = new RepoErrores(pleft, pright); :}
+;
+
+REPOPE ::= REPORTE PUNTO OPERADORES:p PAR1 PAR2 {: RESULT = new RepoOcurrencias(((parser) getParser()), pleft, pright); :}
+;
+
 EXPRESION ::= MENOS EXPRESION:a {: RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright); :} %prec UMENOS
-            | EXPRESION:a MAS EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); :}
-            | EXPRESION:a MENOS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); :}
-            | EXPRESION:a POR EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); :}
-            | EXPRESION:a DIV EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); :}
-            | EXPRESION:a POTENCIA EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); :}
+            | EXPRESION:a MAS EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright); String expresion = a + " + " + b; registrarOcurrencia("Suma", aleft, aright, expresion); :}
+            | EXPRESION:a MENOS EXPRESION:b {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.RESTA, aleft, aright); String expresion = a+" - " +b; registrarOcurrencia("Resta", aleft, aright, expresion); :}
+            | EXPRESION:a POR EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.MULTIPLICACION, aleft, aright); String expresion = a+" * "+b; registrarOcurrencia("Multiplicacion", aleft, aright, expresion); :}
+            | EXPRESION:a DIV EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.DIVISION, aleft, aright); String expresion = a+" / "+b; registrarOcurrencia("Division", aleft, aright, expresion); :}
+            | EXPRESION:a POTENCIA EXPRESION:b   {: RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.POTENCIA, aleft, aright); String expresion = a+" ^ "+b; registrarOcurrencia("Potencia", aleft, aright, expresion); :}
             | ENTERO:a          {: RESULT = new Nativo(Integer.parseInt(a), new Tipo(TipoDato.ENTERO), aleft, aright ); :}
             | DECIMAL:a         {: RESULT = new Nativo(new Double(a), new Tipo(TipoDato.DECIMAL), aleft, aright ); :}
             | CADENA:a          {: RESULT = new Nativo(a, new Tipo(TipoDato.CADENA), aleft, aright ); :}

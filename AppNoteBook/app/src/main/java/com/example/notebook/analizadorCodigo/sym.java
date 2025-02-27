@@ -8,24 +8,28 @@ package com.example.notebook.analizadorCodigo;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PLOT = 14;
+  public static final int PLOT = 15;
   public static final int MENOS = 3;
-  public static final int CADENA = 15;
+  public static final int PUNTO = 12;
+  public static final int CADENA = 19;
+  public static final int REPORTE = 16;
   public static final int IGUAL = 10;
-  public static final int DECIMAL = 17;
+  public static final int DECIMAL = 21;
   public static final int POTENCIA = 9;
   public static final int UMENOS = 8;
   public static final int POR = 4;
   public static final int COMA = 11;
+  public static final int OPERADORES = 18;
   public static final int EOF = 0;
   public static final int DIV = 5;
-  public static final int PRINT = 12;
+  public static final int PRINT = 13;
   public static final int error = 1;
   public static final int PAR2 = 7;
   public static final int PAR1 = 6;
-  public static final int IDENTIFICADOR = 18;
-  public static final int FORMAT = 13;
-  public static final int ENTERO = 16;
+  public static final int IDENTIFICADOR = 22;
+  public static final int FORMAT = 14;
+  public static final int ENTERO = 20;
+  public static final int ERRORES = 17;
   public static final int MAS = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -40,9 +44,13 @@ public class sym {
   "POTENCIA",
   "IGUAL",
   "COMA",
+  "PUNTO",
   "PRINT",
   "FORMAT",
   "PLOT",
+  "REPORTE",
+  "ERRORES",
+  "OPERADORES",
   "CADENA",
   "ENTERO",
   "DECIMAL",
