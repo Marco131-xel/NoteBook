@@ -50,7 +50,7 @@ public class Codigo {
                 erroresStr.append(i.toString()).append("\n");
             }
 
-            return new String[]{ast.getConsola(), erroresStr.toString()};
+            return new String[]{ast.getConsola(), erroresStr.toString(), ast.getLatexOutput()};
 
         } catch (Exception e) {
             return new String[]{"", "Error: " + e.getMessage()};

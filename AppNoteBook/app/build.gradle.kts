@@ -63,7 +63,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.constraintlayout)
     implementation("com.github.vbmacher:java-cup-runtime:11b-20160615") // JAVACUPRUNTIME
-    implementation("org.scilab.forge:jlatexmath:1.0.7") // JLATEXMATH
+    implementation("ru.noties:jlatexmath-android:0.2.0") // Jlatex
+    implementation("ru.noties:jlatexmath-android-font-cyrillic:0.2.0")// for Cyrillic symbols
+    implementation("ru.noties:jlatexmath-android-font-greek:0.2.0") // for Greek symbols
     implementation("com.vladsch.flexmark:flexmark-all:0.64.8") // MARKDOWN
     implementation ("androidx.appcompat:appcompat:1.6.1")
     testImplementation(libs.junit)

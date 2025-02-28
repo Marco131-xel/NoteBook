@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#212f3c"
     android:padding="16dp">
@@ -52,7 +53,25 @@
                 android:padding="8dp"
                 android:background="@drawable/border_historial"
                 android:visibility="gone"/>
+            <!-- Contenedor de salida LaTeX -->
+            <LinearLayout
+                android:id="@+id/contenedorLatex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/border_historial"
+                android:visibility="gone">
 
+                <ru.noties.jlatexmath.JLatexMathView
+                    android:id="@+id/latexView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip"
+                    android:background="@color/white"
+                    app:jlmv_alignVertical="center"
+                    app:jlmv_alignHorizontal="center"
+                    app:jlmv_textSize="40sp" />
+            </LinearLayout>
             <!-- Entrada de codigo -->
             <EditText
                 android:id="@+id/etCodigo"

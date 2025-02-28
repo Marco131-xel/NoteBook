@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.activity.ComponentActivity
 import com.example.notebook.patroninterprete.Codigo
 import com.example.notebook.patroninterprete.Texto
+import ru.noties.jlatexmath.JLatexMathView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
         val btnLimpiarCodigo = findViewById<Button>(R.id.btnLimpiarCodigo)
         val errorContainer = findViewById<LinearLayout>(R.id.errorContainer)
         val errorCodigo = findViewById<TextView>(R.id.tvCodigoErrores)
+        val latexView = findViewById<JLatexMathView>(R.id.latexView)
         // Elementos de texto
         val etTexto = findViewById<EditText>(R.id.etTexto)
         val salTexto = findViewById<TextView>(R.id.tvTextoSalida)
@@ -69,7 +71,7 @@ class MainActivity : ComponentActivity() {
         compiCodigo.setOnClickListener {
             val codigo = etCodigo.text.toString()
             if (codigo.isNotEmpty()) {
-                val (consola, errores) = analizadorCodigo(codigo)
+                val (consola, errores, latex) = analizadorCodigo(codigo)
 
                 if (errores.isNotEmpty()) {
                     errorCodigo.text = errores
@@ -84,11 +86,17 @@ class MainActivity : ComponentActivity() {
                     salCodigo.text = if (salidaAnterior.isEmpty()) consola else "$salidaAnterior\n$consola"
                     salCodigo.visibility = View.VISIBLE
                 }
+
+                if (latex.isNotEmpty()){
+                    latexView.setLatex(latex)
+                    findViewById<LinearLayout>(R.id.contenedorLatex).visibility = View.VISIBLE
+                }
             }
         }
         // Boton limpiar codigo
         btnLimpiarCodigo.setOnClickListener {
             salCodigo.text = ""
+            findViewById<LinearLayout>(R.id.contenedorLatex).visibility = View.GONE
         }
         // Boton limpiar texto
         btnLimpiarTexto.setOnClickListener{
@@ -98,12 +106,12 @@ class MainActivity : ComponentActivity() {
     }
 
     // Metodo para analizar codigo
-    private fun analizadorCodigo(codigo: String): Pair<String, String> {
+    private fun analizadorCodigo(codigo: String): Triple<String, String, String> {
         return try {
             val resultado = Codigo.ejecutar(codigo)
-            Pair(resultado[0], resultado[1])
+            Triple(resultado[0], resultado[1], resultado[2])
         } catch (e: Exception) {
-            Pair("", "Error: ${e.message}")
+            Triple("", "Error: ${e.message}", "")
         }
     }
 

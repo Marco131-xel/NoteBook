@@ -13,6 +13,7 @@ public class Arbol {
     private LinkedList<Instruccion> funciones;
     public int contador;
     private static LinkedList<Errores> historialErrores = new LinkedList<>();
+    private String latexOutput = "";
 
     public Arbol(LinkedList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
@@ -88,6 +89,14 @@ public class Arbol {
 
     public static void limpiarHistorialErrores() {
         historialErrores.clear();
+    }
+
+    public void setLatexOutput(String latex) {
+        this.latexOutput = latex;
+    }
+
+    public String getLatexOutput() {
+        return latexOutput;
     }
 
 }

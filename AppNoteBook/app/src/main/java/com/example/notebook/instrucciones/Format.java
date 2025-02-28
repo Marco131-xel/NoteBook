@@ -14,12 +14,23 @@ public class Format extends Instruccion {
 
     @Override
     public Object interpretar(Arbol arbol, TablaSimbolos tabla) {
-        arbol.Print(expresion.toString());
+        String latex = convertirALatex(expresion.toString());
+        arbol.setLatexOutput(latex);
         return null;
     }
 
     @Override
     public String toString() {
         return expresion.toString();
+    }
+
+    private String convertirALatex(String expresion) {
+        return expresion.replace("+", " + ")
+                .replace("-", " - ")
+                .replace("*", " \\times ")
+                .replace("/", " \\div ")
+                .replace("(", " \\left(")
+                .replace(")", " \\right)")
+                .replace("^", "^{");
     }
 }
