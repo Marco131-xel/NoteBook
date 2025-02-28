@@ -21,6 +21,18 @@
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
+    <!-- Imagen en el centro -->
+    <ImageView
+        android:id="@+id/imgScience"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/cara"/>
+
+    <!-- Espacio entre los textos -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
     <!-- Texto pequeño "from Marco Chiché 201832053" -->
     <TextView
         android:id="@+id/txtFrom"
