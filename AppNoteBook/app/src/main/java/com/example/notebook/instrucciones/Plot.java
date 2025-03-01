@@ -34,7 +34,7 @@ public class Plot extends Instruccion {
         if (inicioVal > finVal) {
             return new Errores("SEMANTICO", "El valor de inicio no puede ser mayor que el de fin", this.linea, this.col);
         }
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.00");
         double rango = Math.abs(finVal - inicioVal);
         double paso;
 
@@ -53,19 +53,23 @@ public class Plot extends Instruccion {
             TablaSimbolos tablaTemporal = new TablaSimbolos(tabla);
             tablaTemporal.setVariable(new Simbolo(new Tipo(TipoDato.DECIMAL), "x", x));
 
-            Object resultado = expresion.interpretar(arbol, tablaTemporal);
-
-            if (resultado instanceof Errores) {
-                return resultado;
+            Object resultado;
+            try {
+                resultado = expresion.interpretar(arbol, tablaTemporal);
+                if (resultado instanceof Errores ||
+                        (resultado instanceof Number && ((Number) resultado).doubleValue() == Double.POSITIVE_INFINITY)) {
+                    resultado = "EQ";
+                }
+            } catch (ArithmeticException e) {
+                resultado = "EQ";
             }
-            // Si los valores de entrada son enteros, imprimimos resultados enteros
-            String xStr = (inicioVal % 1 == 0 && finVal % 1 == 0) ? String.valueOf((int) x) : df.format(x);
-            String resultadoStr = (resultado instanceof Number)
-                    ? ((inicioVal % 1 == 0 && finVal % 1 == 0) ? String.valueOf(((Number) resultado).intValue()) : df.format(resultado))
-                    : resultado.toString();
+
+            String xStr = df.format(x);
+            String resultadoStr = (resultado instanceof Number) ? df.format(resultado) : resultado.toString();
 
             arbol.Print(xStr + "\t\t" + resultadoStr);
         }
         return null;
     }
 }
+
